@@ -1,5 +1,5 @@
 param (
-    [string]$commMess = "Default commit message"
+    [string]$commMess
 )
 
 pip freeze > requirements.txt
