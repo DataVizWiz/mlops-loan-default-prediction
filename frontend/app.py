@@ -1,7 +1,9 @@
 import streamlit as st
 
+
 def handle_submit():
-    st.session_state.form_submitted = True 
+    st.session_state.form_submitted = True
+
 
 if "form_submitted" not in st.session_state:
     st.session_state.form_submitted = False
@@ -15,7 +17,8 @@ if not st.session_state.form_submitted:
         st.number_input("The annual income of the borrower (USD)", step=1)
         st.number_input("The amount of money being borrowed", step=1)
         st.number_input(
-            "The credit score of the borrower, indicating their creditworthiness", step=1
+            "The credit score of the borrower, indicating their creditworthiness",
+            step=1,
         )
         st.number_input("The number of months the borrower has been employed", step=1)
         st.number_input("The number of credit lines the borrower has open", step=1)
@@ -34,11 +37,14 @@ if not st.session_state.form_submitted:
             "The type of employment status of the borrower",
             ("Full-time", "Part-time", "Self-employed", "Unemployed"),
         )
-        st.radio("The marital status of the borrower", ("Single", "Married", "Divorced"))
+        st.radio(
+            "The marital status of the borrower", ("Single", "Married", "Divorced")
+        )
         st.radio("Whether the borrower has a mortgage", ("Yes", "No"))
         st.radio("Whether the borrower has dependents", ("Yes", "No"))
         st.radio(
-            "The purpose of the loan", ("Home", "Auto", "Education", "Business", "Other")
+            "The purpose of the loan",
+            ("Home", "Auto", "Education", "Business", "Other"),
         )
         st.radio("Whether the loan has a co-signer", ("Yes", "No"))
 
