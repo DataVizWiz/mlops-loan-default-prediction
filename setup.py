@@ -6,7 +6,8 @@ setup(
     author="Metin Alisho",
     author_email="",
     description="The deployment and productionization of predicting loan defaults",
-    packages=find_packages(),
+    package_dir={"": "src"},
+    packages=find_packages(where="src"),
     python_requires=">=3.10",
     classifiers=[
         "Programming Language :: Python :: 3",
