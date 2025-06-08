@@ -1,4 +1,4 @@
-NUMERICAL_FEATURES = [
+NUM_FEATS = [
     "Age",
     "Income",
     "LoanAmount",
@@ -9,10 +9,10 @@ NUMERICAL_FEATURES = [
     "DTIRatio",
 ]
 
-CATEGORICAL_FEATURES = ["Education", "EmploymentType", "MaritalStatus", "LoanPurpose"]
+CAT_FEATS = ["Education", "EmploymentType", "MaritalStatus", "LoanPurpose"]
 
-BINARY_FEATURES = ["HasMortgage", "HasDependents", "HasCoSigner"]
+BIN_FEATS = ["HasMortgage", "HasDependents", "HasCoSigner"]
 
-DROP_FEATURES = ["LoanID"]
+DROP_FEATS = ["LoanID"]
 
-MODELS_DIR = "models"
+REGISTRY = "models"
