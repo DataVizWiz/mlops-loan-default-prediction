@@ -1,4 +1,5 @@
 import os
+import joblib
 import polars as pl
 import backend.control.config as cfg
 
@@ -22,12 +23,13 @@ class TrainLogisticRegression:
         df.drop_in_place(cfg.LOAN_ID_COL)
         self.df_X = df.drop(cfg.TARGET_COL)
         self.df_y = df[cfg.TARGET_COL].to_frame().cast(pl.Int8)
+        self.model = LogisticRegression()
 
     def apply_scaling(self):
         """Scale numeric features"""
         scale_feats = [x for x in cfg.NUM_FEATS if x != "DTIRatio"]
 
-        df_num = self.df[scale_feats]
+        df_num = self.df_X[scale_feats]
         num_arr = df_num.to_numpy()
 
         scaler = StandardScaler()
@@ -39,7 +41,7 @@ class TrainLogisticRegression:
         """Normalize DTIRatio"""
         norm_feats = [x for x in cfg.NUM_FEATS if x == "DTIRatio"]
 
-        df_dtir = self.df[norm_feats]
+        df_dtir = self.df_X[norm_feats]
         dtir_arr = df_dtir.to_numpy()
 
         normalizer = MinMaxScaler(feature_range=(0, 1))
@@ -82,22 +84,32 @@ class TrainLogisticRegression:
         df_eng = pl.concat([self.df_X, self.df_y], how="horizontal")
         df_eng.write_csv(f"{t_dir}/feats_engineered.csv")
 
-    def main(self):
-        """"""
+    def train_model(self):
+        """Train LR model"""
+        X = self.df_X.to_numpy()
+        y = self.df_y.to_numpy()
 
-        # X = df_X.to_numpy()
-        # y = df_y.to_numpy()
+        X_train, _, y_train, _ = train_test_split(X, y, train_size=0.8, random_state=42)
 
-        # X_train, X_test, y_train, y_test = train_test_split(
-        #     X, y, train_size=0.8, random_state=42
-        # )
+        smote = SMOTE(random_state=42)
+        X_train_bal, y_train_bal = smote.fit_resample(X_train, y_train)
 
-        # smote = SMOTE(random_state=42)
-        # X_train_bal, y_train_bal = smote.fit_resample(X_train, y_train)
+        self.model.fit(X_train_bal, y_train_bal)
 
-        # model = LogisticRegression()
-        # model.fit(X_train_bal, y_train_bal)
+    def save_model(self):
+        """Save model to registry"""
+        pkl_path = f"{cfg.REGISTRY}/logistic_regression.pkl"
+        joblib.dump(self.model, pkl_path)
+        print(f"Model has been saved to {pkl_path}")
 
 
-train = TrainLogisticRegression()
-train.main()
+if __name__ == "__main__":
+    train = TrainLogisticRegression()
+    train.apply_scaling()
+    train.apply_normalization()
+    train.apply_ordinal_encoding()
+    train.apply_one_hot_encoding()
+    train.apply_binary_encoding()
+    train.upload_preprocessed_features()
+    train.train_model()
+    train.save_model()
