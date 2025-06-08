@@ -6,13 +6,13 @@ NUMERICAL_FEATURES = [
     "MonthsEmployed",
     "NumCreditLines",
     "InterestRate",
+    "DTIRatio",
 ]
-
-DTIR_FEATURES = ["DTIRatio"]
-
 
 CATEGORICAL_FEATURES = ["Education", "EmploymentType", "MaritalStatus", "LoanPurpose"]
 
 BINARY_FEATURES = ["HasMortgage", "HasDependents", "HasCoSigner"]
 
 DROP_FEATURES = ["LoanID"]
+
+MODELS_DIR = "models"
