@@ -42,7 +42,7 @@ MarkupSafe==3.0.2
 matplotlib==3.10.3
 matplotlib-inline==0.1.7
 mdurl==0.1.2
-mlops-loan-default-predictions @ file:///C:/Users/metin/git/mlops-loan-default-prediction/dist/mlops_loan_default_predictions-0.1.0-py3-none-any.whl#sha256=2363c8514087c65e8bd73d53d64b56ec4e32c0e23f0ccf073b5921da93a8230e
+mlops-loan-default-predictions @ file:///C:/Users/metin/git/mlops-loan-default-prediction/dist/mlops_loan_default_predictions-0.1.0-py3-none-any.whl#sha256=912ebecc36bb879cddd77508bceb21aaa89029a400a879f6958330cca7d14636
 more-itertools==10.7.0
 mypy_extensions==1.1.0
 narwhals==1.41.0

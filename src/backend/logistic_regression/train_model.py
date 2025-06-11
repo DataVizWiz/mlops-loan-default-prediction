@@ -24,6 +24,10 @@ class TrainLogisticRegression:
         self.df_X = df.drop(cfg.TARGET_COL)
         self.df_y = df[cfg.TARGET_COL].to_frame().cast(pl.Int8)
         self.model = LogisticRegression()
+        self.X_train = None
+        self.X_test = None
+        self.y_train = None
+        self.y_test = None
 
     def apply_scaling(self):
         """Scale numeric features"""
@@ -85,19 +89,30 @@ class TrainLogisticRegression:
         df_eng.write_csv(f"{t_dir}/feats_engineered.csv")
 
     def train_model(self):
-        """Train LR model"""
+        """Balance training data using SMOTE"""
         X = self.df_X.to_numpy()
         y = self.df_y.to_numpy()
 
-        X_train, _, y_train, _ = train_test_split(X, y, train_size=0.8, random_state=42)
-
+        X_train, self.X_test, y_train, self.y_test = train_test_split(
+            X, y, train_size=0.8, random_state=42
+        )
         smote = SMOTE(random_state=42)
-        X_train_bal, y_train_bal = smote.fit_resample(X_train, y_train)
+        self.X_train, self.y_train = smote.fit_resample(X_train, y_train)
+        self.model.fit(self.X_train, self.y_train)
 
-        self.model.fit(X_train_bal, y_train_bal)
+    def save_test_data(self):
+        """Save test data to CSV"""
+        if not os.path.exists(cfg.TEST_DATA_DIR):
+            os.mkdir(cfg.TEST_DATA_DIR)
+
+        df_X = pl.DataFrame(self.X_test)
+        df_y = pl.DataFrame(self.y_test)
+        df_X.write_csv(f"{cfg.TEST_DATA_DIR}/X_test.csv")
+        df_y.write_csv(f"{cfg.TEST_DATA_DIR}/y_test.csv")
+        print(f"X_test, y_test saved to {cfg.TEST_DATA_DIR}")
 
     def save_model(self):
-        """Save model to registry"""
+        """Train and save LR model"""
         pkl_path = f"{cfg.REGISTRY}/logistic_regression.pkl"
         joblib.dump(self.model, pkl_path)
         print(f"Model has been saved to {pkl_path}")
@@ -112,4 +127,5 @@ if __name__ == "__main__":
     train.apply_binary_encoding()
     train.upload_preprocessed_features()
     train.train_model()
+    train.save_test_data()
     train.save_model()
