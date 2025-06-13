@@ -4,8 +4,10 @@ import mlflow
 
 from argparse import ArgumentParser
 
-mlflow.set_tracking_uri("http://localhost:5000")
 exp_id = mlflow.create_experiment("Demo")
+
+mlflow.set_tracking_uri("http://localhost:5000")
+mlflow.set_experiment("Demo")
 
 print("Tracking URI:", mlflow.get_tracking_uri())
 print("Experiment ID:", exp_id)
