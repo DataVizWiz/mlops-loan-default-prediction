@@ -61,7 +61,7 @@ matplotlib-inline==0.1.7
 mdurl==0.1.2
 mlflow==3.1.0
 mlflow-skinny==3.1.0
-mlops-loan-default-predictions @ file:///C:/Users/metin/git/mlops-loan-default-prediction/dist/mlops_loan_default_predictions-0.1.0-py3-none-any.whl#sha256=912ebecc36bb879cddd77508bceb21aaa89029a400a879f6958330cca7d14636
+mlops-loan-default-predictions @ file:///C:/Users/metin/git/mlops-loan-default-prediction/dist/mlops_loan_default_predictions-0.1.0-py3-none-any.whl#sha256=2552a7b6b6ee05cbf094d584b23a4ddb6e258b58436ee8fdee15213606b6a93d
 more-itertools==10.7.0
 mypy_extensions==1.1.0
 narwhals==1.41.0
@@ -81,6 +81,7 @@ polars==1.30.0
 prompt_toolkit==3.0.51
 protobuf==6.31.1
 psutil==7.0.0
+psycopg2==2.9.10
 pure_eval==0.2.3
 pyarrow==20.0.0
 pyasn1==0.6.1
